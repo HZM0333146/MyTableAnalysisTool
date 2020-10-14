@@ -1,8 +1,12 @@
-package com.table.analysis.util.exclusive;
+package hzm.table.analysis.util.universal;
 
-public class TableFieldOperate {
+public class WordDataOperate {
 	public enum Attribute {
-		ContentPaste, AttributePaste, ContentAndAttributeIsText, ContentAndAttributeNoText, ContentAndAttributeAuto,
+		ContentPaste, 
+		AttributePaste, 
+		ContentAndAttributeIsText, 
+		ContentAndAttributeNoText, 
+		ContentAndAttributeAuto,
 		NoAction;
 	}
 

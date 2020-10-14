@@ -1,20 +1,15 @@
-package com.table.analysis.generator;
+package hzm.table.analysis.generator.creatsqltable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import com.table.analysis.util.exclusive.TableFieldManage;
-import com.table.analysis.util.exclusive.TableGenerator;
+
+import hzm.table.analysis.util.exclusive.TableGenerator;
 
 public class SqlDmlModelGenerator extends TableGenerator {
 
-	public SqlDmlModelGenerator(String filePath, List<Map<String, String>> ls) {
-		super(filePath, ls);
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
-	public List<String> creatTemplate(List<Map<String, String>> k) {
+	public List<String> inputFileData(List<Map<String, String>> k) {
 		// TODO Auto-generated method stub
 		List<String> sqlDmlTextList = new ArrayList<>();
 		sqlDmlTextList.add("sqlNameText");
@@ -38,7 +33,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * sql Name
 	 */
 	void sqlNameText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = TableFieldManage.FILEDNAME.getFiledName();
+		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
 		StringBuffer inputText = new StringBuffer();
 		for (int i = 0; i < tableContont.size(); i++) {
 			Map<String, String> tableRowMap = tableContont.get(i);
@@ -47,7 +42,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 			}
 			inputText.append(tableRowMap.get(sqlName));
 			inputText.append(",");
-			if(i>0&&i%5==0) {
+			if (i > 0 && i % 5 == 0) {
 				inputText.append("\n");
 			}
 		}
@@ -60,7 +55,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 */
 	void javaNameText(List<String> sqlText, List<Map<String, String>> tableContont) {
 		String liItemNameString = "item";
-		String javaName = TableFieldManage.JAVANAME.getFiledName();
+		String javaName = SqlDdlMode.JAVANAME.getFiledName();
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("(");
 		for (int i = 0; i < tableContont.size(); i++) {
@@ -73,7 +68,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 			inputText.append(".");
 			inputText.append(tableRowMap.get(javaName));
 			inputText.append("},");
-			if(i>0&&i%5==0) {
+			if (i > 0 && i % 5 == 0) {
 				inputText.append("\n");
 			}
 		}
@@ -92,9 +87,9 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * @Result(column="email",property="email",javaType=String.class) })
 	 */
 	void resultsText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = TableFieldManage.FILEDNAME.getFiledName();
-		String javaName = TableFieldManage.JAVANAME.getFiledName();
-		String javaType = TableFieldManage.JAVATYPE.getFiledName();
+		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
+		String javaName = SqlDdlMode.JAVANAME.getFiledName();
+		String javaType = SqlDdlMode.JAVATYPE.getFiledName();
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("@Results({\n");
 		inputText.append("@Result(id=true,column=\"id\",property=\"id\",javaType=Integer.class),\n");
@@ -117,7 +112,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 			inputText.append("),");
 			inputText.append("\n");
 		}
-		inputText.deleteCharAt(inputText.length()-2);
+		inputText.deleteCharAt(inputText.length() - 2);
 		inputText.append("})");
 		sqlText.add(inputText.toString());
 	}
@@ -127,8 +122,8 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * column=""property=""/> <result property="" column=""/> </resultMap>
 	 */
 	void resultMapText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = TableFieldManage.FILEDNAME.getFiledName();
-		String javaName = TableFieldManage.JAVANAME.getFiledName();
+		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
+		String javaName = SqlDdlMode.JAVANAME.getFiledName();
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("<resultMap id=\"\" type=\"\">\n<id property=\"\" column=\"\" />\n");
 
@@ -157,9 +152,9 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * #{dutyrealUid,jdbcType=DECIMAL}, </if> </set>
 	 */
 	void upDataSetText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = TableFieldManage.FILEDNAME.getFiledName();
-		String javaName = TableFieldManage.JAVANAME.getFiledName();
-		String javaType = TableFieldManage.JAVATYPE.getFiledName();
+		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
+		String javaName = SqlDdlMode.JAVANAME.getFiledName();
+		String javaType = SqlDdlMode.JAVATYPE.getFiledName();
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("<set >\n");
 		for (int i = 0; i < tableContont.size(); i++) {

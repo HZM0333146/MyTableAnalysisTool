@@ -1,4 +1,4 @@
-package com.table.analysis.util.exclusive;
+package hzm.table.analysis.util.exclusive;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.table.analysis.util.universal.FileUtil;
+import hzm.table.analysis.generator.creatsqltable.SqlDdlMode;
+import hzm.table.analysis.util.universal.FileUtil;
 
 public class TableAnalysisExtract {
 	private String filePath;
@@ -81,7 +82,7 @@ public class TableAnalysisExtract {
 
 	private boolean fieldNameOfJavaName(String[] fieldNameArray) {
 		for (String fieldName : fieldNameArray) {
-			if (TableFieldManage.JAVANAME.getFiledName().equals(fieldName)) {
+			if (SqlDdlMode.JAVANAME.getFiledName().equals(fieldName)) {
 				return false;
 			}
 		}
@@ -89,7 +90,7 @@ public class TableAnalysisExtract {
 	}
 
 	private void addSqlNameToJavaName(Map<String, String> field) {
-		String fieldName = field.get(TableFieldManage.FILEDNAME.getFiledName());
+		String fieldName = field.get(SqlDdlMode.FILEDNAME.getFiledName());
 		String[] fieldNameArray = fieldName.split("_");
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < fieldNameArray.length; i++) {
@@ -101,6 +102,6 @@ public class TableAnalysisExtract {
 			}
 			sb.append(lowFieldName);
 		}
-		field.put(TableFieldManage.JAVANAME.getFiledName(), sb.toString());
+		field.put(SqlDdlMode.JAVANAME.getFiledName(), sb.toString());
 	}
 }

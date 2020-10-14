@@ -1,6 +1,0 @@
-CREATE TABLE table_name (
-id INT NOT NULL default 1 COMMENTS '代號',
-number INT(20) NOT NULL default 1 COMMENTS '數字',
-name CHAR(20) default '黃梓閔' COMMENTS '名字',
-grade char NOT NULL default 123 COMMENTS '號碼',
-);

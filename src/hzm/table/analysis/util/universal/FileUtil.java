@@ -1,4 +1,4 @@
-package com.table.analysis.util.universal;
+package hzm.table.analysis.util.universal;
 
 import java.io.BufferedReader;
 import java.io.File;

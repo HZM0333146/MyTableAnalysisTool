@@ -1,20 +1,22 @@
-package com.table.analysis.util.exclusive;
+package hzm.table.analysis.util.exclusive;
 
 import java.util.Map;
 
+import hzm.table.analysis.generator.creatsqltable.SqlDdlMode;
+
 public abstract class TableContentOperating {
 	public String columnContext;
-	public TableContentOperating(Map<String, String> columnData, TableFieldManage[] fieldNameArray,
+	public TableContentOperating(Map<String, String> columnData, SqlDdlMode[] fieldNameArray,
 			String interval){
 		 columnContext=outColumnContext(columnData,fieldNameArray,interval);
 	}
 	public String getColumnContext() {
 		return columnContext;
 	}
-	private String outColumnContext(Map<String, String> columnData, TableFieldManage[] fieldNameArray,
+	private String outColumnContext(Map<String, String> columnData, SqlDdlMode[] fieldNameArray,
 			String interval) {
 		StringBuffer sb = new StringBuffer();
-		for (TableFieldManage fieldName : fieldNameArray) {
+		for (SqlDdlMode fieldName : fieldNameArray) {
 			String fieldNameKey = fieldName.getFiledName();
 			if (columnData.containsKey(fieldNameKey) && null != columnData.get(fieldNameKey)
 					&& !"".equals(columnData.get(fieldNameKey))) {
@@ -28,6 +30,6 @@ public abstract class TableContentOperating {
 		return sb.toString();
 	}
 	
-	public abstract String contextOperating(TableFieldManage tableFieldManage, String fieldContent);
+	public abstract String contextOperating(SqlDdlMode tableFieldManage, String fieldContent);
 		
 }
