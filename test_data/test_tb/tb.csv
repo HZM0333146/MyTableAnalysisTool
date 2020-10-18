@@ -1,0 +1,5 @@
+sqlName,jdbcType,not null,javaType,comments,default
+id ,INT ,true ,int ,代號,1
+number, INT(20), true,int ,數字,1
+name ,CHAR(20),,char,名字,黃梓閔
+grade ,char,true ,String,號碼,123

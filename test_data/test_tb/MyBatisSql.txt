@@ -1,0 +1,39 @@
+sqlNameText
+id,number,name,grade
+
+
+javaNameText
+(#{item.id},#{item.number},#{item.name},#{item.grade})
+
+
+resultsText
+@Results({
+@Result(id=true,column="id",property="id",javaType=Integer.class)
+})
+
+
+resultMapText
+<resultMap id="" type="">
+<id property="" column="" />
+<result  property="id",column="id"/>
+<result  property="number",column="number"/>
+<result  property="name",column="name"/>
+<result  property="grade",column="grade"/>
+</resultMap>
+
+
+upDataSetText
+<set >
+<if test="id!= null">
+id=#{id,jdbcType=INT},
+</if>
+<if test="number!= null">
+number=#{number,jdbcType=INT(20)},
+</if>
+<if test="name!= null">
+name=#{name,jdbcType=CHAR(20)},
+</if>
+<if test="grade!= null">
+grade=#{grade,jdbcType=char},
+</if>
+</set>

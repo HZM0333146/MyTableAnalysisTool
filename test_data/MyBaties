@@ -1,0 +1,106 @@
+MyBatie
+select:
+xml:	
+	<!-- foreach标签 ，遍历泛型为基本类型的 List-->
+	<select id="selectStudentsByForeach2" resultType="Student">
+		<!-- select id,name,age,score from student where id in (1,3,5) -->
+		select id,name,age,score 
+		from student 
+		<if test="list.size > 0">
+			where id in 
+			<foreach collection="list" item="myid" open="(" close=")" separator=",">
+				#{myid}
+			</foreach>
+		</if>
+	</select>
+	<resultMap id="userResultMap" type="User">
+		<id property="id" column="user_id" />
+		<result property="username" column="user_name"/>
+		<result property="password" column="hashed_password"/>
+	</resultMap>
+注解@select	
+	//user中外键查询数据
+	@Select("select * from userInfo where user_id=#{id}")
+	@Results({
+		@Result(id=true,column="info_id",property="infoId",javaType=Integer.class),
+		@Result(column="nickName",property="nickName",javaType=String.class),
+		@Result(column="email",property="email",javaType=String.class)
+	})
+	public UserInfo findByUser(@Param("id")int id);
+	
+update:	
+xml:
+	<update id="updateByPrimaryKeySelective" parameterType="com.zehin.vpaas.base.domain.CtSysDutyreal" >
+	update CT_SYS_DUTYREAL
+	<set >
+	  <if test="dutyrealUid != null" >
+		DUTYREAL_UID = #{dutyrealUid,jdbcType=DECIMAL},
+	  </if>
+	  <if test="dutyruleId != null" >
+		DUTYRULE_ID = #{dutyruleId,jdbcType=DECIMAL},
+	  </if>
+	  <if test="dutyrealSt != null" >
+		DUTYREAL_ST = #{dutyrealSt,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="dutyrealEt != null" >
+		DUTYREAL_ET = #{dutyrealEt,jdbcType=TIMESTAMP},
+	  </if>
+	  <if test="dutyrealSelf != null" >
+		DUTYREAL_SELF = #{dutyrealSelf,jdbcType=DECIMAL},
+	  </if>
+	  <if test="dutyrealState != null" >
+		DUTYREAL_STATE = #{dutyrealState,jdbcType=DECIMAL},
+	  </if>
+	  <if test="dutyrealRuid != null" >
+		DUTYREAL_RUID = #{dutyrealRuid,jdbcType=VARCHAR},
+	  </if>
+	  <if test="dutyrealDate != null" >
+		DUTYREAL_DATE = #{dutyrealDate,jdbcType=TIMESTAMP},
+	  </if>
+		</set>
+		where DUTYREAL_ID = #{dutyrealId,jdbcType=DECIMAL}
+	</update>
+注解@update
+	@Update({"<script>",
+	  "update Author",
+	  "  <set>",
+	  "    <if test='username != null'>username=#{username},</if>",
+	  "    <if test='password != null'>password=#{password},</if>"
+	  "    <if test='email != null'>email=#{email},</if>",
+	  "    <if test='bio != null'>bio=#{bio}</if>",
+	  "  </set>",
+	  "where id=#{id}",
+	  "</script>"})
+	void updateAuthorValues(Author author);
+insert:
+xml:
+	<insert id="insertAuthor" useGeneratedKeys="true" keyProperty="id">
+	  insert into Author (username, password, email, bio) values
+	  <foreach item="item" collection="list" separator=",">
+		(#{item.username}, #{item.password}, #{item.email}, #{item.bio})
+	  </foreach>
+	</insert>
+注解@insert:
+	@Insert({"<script>",
+			"insert into rolemenu(roleId,menuId) values ",
+			"<foreach collection='menuIds' item='item' index='index' separator=','>",
+			"(#{roleId}, #{item})",
+			"</foreach>",
+			"</script>"})
+	public void insertRolePower(@Param(value = "roleId") int roleId, @Param(value = "menuIds") List<Integer> menuIds);
+	@Insert("<script>" +
+				"insert into book("+
+					"category_id,name,level,price,"+
+					"img_path,create_time,update_time"+
+				") values" +
+				"<foreach collection='list' item='book' separator=','>" +
+					"(#{book.category_id},#{book.name},#{book.level},#{book.price}," +
+					"#{book.img_path},#{book.create_time},#{book.update_time})" +
+				"</foreach>" +
+			"</script>")
+	@Options(useGeneratedKeys = true,keyProperty = "id")
+	void batchInsert(List<Book> list);
+detele:	
+xml:
+注解@detele,
+

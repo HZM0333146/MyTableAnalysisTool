@@ -6,24 +6,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import hzm.table.analysis.generator.creatsqltable.SqlDdlMode;
 import hzm.table.analysis.util.universal.FileUtil;
 
-public class TableAnalysisExtract {
+public class CsvFileTableAnalysisExtract {
 	private String filePath;
 	private String splitText;
 	private String replaceText;
 	private List<Map<String, String>> tableInformation;
-
-	public TableAnalysisExtract(String filePath) throws IOException {
+	private boolean isFieldNameOfJavaName = true;
+	private String sqlFiledName="sqlName";
+	public CsvFileTableAnalysisExtract(String filePath) throws IOException {
 		this(filePath, "");
 	}
 
-	public TableAnalysisExtract(String filePath, String replaceText) throws IOException {
+	public CsvFileTableAnalysisExtract(String filePath, String replaceText) throws IOException {
 		this(filePath, ",", replaceText);
 	}
 
-	public TableAnalysisExtract(String filePath, String splitText, String replaceText) throws IOException {
+	public CsvFileTableAnalysisExtract(String filePath, String splitText, String replaceText) throws IOException {
 		this.filePath = filePath;
 		this.splitText = splitText;
 		this.replaceText = replaceText;
@@ -58,7 +58,7 @@ public class TableAnalysisExtract {
 	private void replaceTextTableInfoArray(List<String[]> tableInfoArray) {
 		for (String[] rowFieldContext : tableInfoArray) {
 			for (String text : rowFieldContext) {
-				text.replace(replaceText, ",");
+				text=text.replace(replaceText, ",");
 			}
 		}
 	}
@@ -66,7 +66,6 @@ public class TableAnalysisExtract {
 	private List<Map<String, String>> fieldNameAndFieldContextComToMap(List<String[]> tableInfoArray) {
 		List<Map<String, String>> fieldNameAndContextToMap = new ArrayList<>();
 		String[] fieldName = tableInfoArray.get(0);
-		boolean isFieldNameOfJavaName = fieldNameOfJavaName(fieldName);
 		for (int i = 1; i < tableInfoArray.size(); i++) {
 			Map<String, String> field = new HashMap<>();
 			String[] fieldContext = tableInfoArray.get(i);
@@ -80,17 +79,8 @@ public class TableAnalysisExtract {
 		return fieldNameAndContextToMap;
 	}
 
-	private boolean fieldNameOfJavaName(String[] fieldNameArray) {
-		for (String fieldName : fieldNameArray) {
-			if (SqlDdlMode.JAVANAME.getFiledName().equals(fieldName)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	private void addSqlNameToJavaName(Map<String, String> field) {
-		String fieldName = field.get(SqlDdlMode.FILEDNAME.getFiledName());
+		String fieldName = field.get(sqlFiledName);
 		String[] fieldNameArray = fieldName.split("_");
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < fieldNameArray.length; i++) {
@@ -102,6 +92,6 @@ public class TableAnalysisExtract {
 			}
 			sb.append(lowFieldName);
 		}
-		field.put(SqlDdlMode.JAVANAME.getFiledName(), sb.toString());
+		field.put("javaName", sb.toString());
 	}
 }

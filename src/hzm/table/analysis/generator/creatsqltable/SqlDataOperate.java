@@ -1,6 +1,6 @@
-package hzm.table.analysis.util.universal;
+package hzm.table.analysis.generator.creatsqltable;
 
-public class WordDataOperate {
+public class SqlDataOperate {
 	public enum Attribute {
 		ContentPaste, 
 		AttributePaste, 
@@ -14,24 +14,35 @@ public class WordDataOperate {
 		return text;
 	}
 
-	public static String attributePaste(String attributes, String fieldContent, String equalsText) {
-		String text = "";
-		if (equalsText.equals(fieldContent)) {
+	public static String attributePaste(String attributes, String fieldContent) {
+		String text;
+		switch (fieldContent) {
+		case "true":
 			text = attributes;
+			break;
+		case "TRUE":
+			text = attributes;
+			break;
+		case "True":
+			text = attributes;
+			break;
+		default:
+			text = "";
+			break;
 		}
 		return text;
 	}
 
 	public static String contentAndAttributeAuto(String attributes, String fieldContent, String contentToBeAdd,
 			String interval) {
-		if (isNumeric(fieldContent) || "true".equals(fieldContent) || "false".equals(fieldContent)) {
+		if (isNumber(fieldContent) || "true".equals(fieldContent) || "false".equals(fieldContent)) {
 			return contentAndAttributeNoText(attributes, fieldContent, interval);
 		} else {
 			return attributes + interval + contentToBeAdd + fieldContent + contentToBeAdd;
 		}
 	}
 
-	public static boolean isNumeric(String str) {
+	public static boolean isNumber(String str) {
 		String[] strArray = str.split("\\.");
 		for (int i = 0; i < strArray.length; i++) {
 			char[] charArray = strArray[i].toCharArray();

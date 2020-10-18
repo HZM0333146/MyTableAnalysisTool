@@ -1,4 +1,4 @@
-package hzm.table.analysis.generator.creatsqltable;
+package hzm.table.analysis.generator.mybatis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 		resultMapText(sqlDmlTextList, k);
 		sqlDmlTextList.add("\n");
 		sqlDmlTextList.add("upDataSetText");
-		upDataSetText(sqlDmlTextList, k);
+		//upDataSetText(sqlDmlTextList, k);
 		return sqlDmlTextList;
 	}
 
@@ -33,7 +33,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * sql Name
 	 */
 	void sqlNameText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
+		String sqlName = "sqlName";
 		StringBuffer inputText = new StringBuffer();
 		for (int i = 0; i < tableContont.size(); i++) {
 			Map<String, String> tableRowMap = tableContont.get(i);
@@ -46,7 +46,8 @@ public class SqlDmlModelGenerator extends TableGenerator {
 				inputText.append("\n");
 			}
 		}
-		inputText.deleteCharAt(inputText.length() - 1);
+		if(inputText.length()>0)
+			inputText.deleteCharAt(inputText.length() - 1);
 		sqlText.add(inputText.toString());
 	}
 
@@ -55,7 +56,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 */
 	void javaNameText(List<String> sqlText, List<Map<String, String>> tableContont) {
 		String liItemNameString = "item";
-		String javaName = SqlDdlMode.JAVANAME.getFiledName();
+		String javaName ="javaName";
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("(");
 		for (int i = 0; i < tableContont.size(); i++) {
@@ -87,9 +88,9 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * @Result(column="email",property="email",javaType=String.class) })
 	 */
 	void resultsText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
-		String javaName = SqlDdlMode.JAVANAME.getFiledName();
-		String javaType = SqlDdlMode.JAVATYPE.getFiledName();
+		String sqlName = "sqlNAme";
+		String javaName = "javaName";
+		String javaType ="jdbcType";
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("@Results({\n");
 		inputText.append("@Result(id=true,column=\"id\",property=\"id\",javaType=Integer.class),\n");
@@ -122,8 +123,8 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * column=""property=""/> <result property="" column=""/> </resultMap>
 	 */
 	void resultMapText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
-		String javaName = SqlDdlMode.JAVANAME.getFiledName();
+		String sqlName = "sqlName";
+		String javaName = "javaName";
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("<resultMap id=\"\" type=\"\">\n<id property=\"\" column=\"\" />\n");
 
@@ -152,15 +153,15 @@ public class SqlDmlModelGenerator extends TableGenerator {
 	 * #{dutyrealUid,jdbcType=DECIMAL}, </if> </set>
 	 */
 	void upDataSetText(List<String> sqlText, List<Map<String, String>> tableContont) {
-		String sqlName = SqlDdlMode.FILEDNAME.getFiledName();
-		String javaName = SqlDdlMode.JAVANAME.getFiledName();
-		String javaType = SqlDdlMode.JAVATYPE.getFiledName();
+		String sqlName = "sqlName";
+		String javaName = "javaName";
+		String jdbcType = "jdbcType";
 		StringBuffer inputText = new StringBuffer();
 		inputText.append("<set >\n");
 		for (int i = 0; i < tableContont.size(); i++) {
 			Map<String, String> tableRowMap = tableContont.get(i);
 			if (!tableRowMap.containsKey(sqlName) || !tableRowMap.containsKey(javaName)
-					|| !tableRowMap.containsKey(javaType)) {
+					|| !tableRowMap.containsKey(jdbcType)) {
 				continue;
 			}
 			inputText.append("<if test=");
@@ -175,7 +176,7 @@ public class SqlDmlModelGenerator extends TableGenerator {
 			inputText.append("#{");
 			inputText.append(tableRowMap.get(javaName));
 			inputText.append(",jdbcType=");
-			inputText.append(tableRowMap.get(javaType));
+			inputText.append(tableRowMap.get(jdbcType));
 			inputText.append("},");
 			inputText.append("\n");
 			inputText.append("</if>");
